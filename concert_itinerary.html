@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>An Evening of Flute — Benefit Concert</title>
+<style>
+  :root{
+    --heather:#9E7BB5;
+    --heather-deep:#6C4E86;
+    --heather-dark:#4A3560;
+    --plum:#2E2140;
+    --lilac:#D9C7E8;
+    --lilac-soft:#EFE6F7;
+    --gold:#E3C287;
+    --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    background:linear-gradient(165deg,var(--heather-dark) 0%,var(--heather-deep) 38%,var(--heather) 100%);
+    background-attachment:fixed;
+    color:var(--white);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:calc(env(safe-area-inset-top) + 72px) 24px 56px;
+    text-align:center;
+    position:relative;
+  }
+  .hero .eyebrow{
+    display:inline-block;
+    font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;
+    border:1px solid rgba(227,194,135,.4);
+    padding:8px 18px;border-radius:999px;
+    backdrop-filter:blur(8px);
+    animation:fadeUp .7s ease both;
+  }
+  .hero h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(42px,11vw,72px);
+    line-height:1.05;font-weight:700;
+    margin:26px 0 14px;
+    background:linear-gradient(90deg,#FFF 20%,var(--lilac) 80%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:fadeUp .7s .1s ease both;
+  }
+  .hero .tagline{
+    font-family:Georgia,serif;font-style:italic;
+    color:var(--lilac);font-size:18px;
+    animation:fadeUp .7s .2s ease both;
+  }
+  .hero .meta{
+    margin-top:30px;display:flex;flex-direction:column;gap:6px;
+    font-size:15px;color:rgba(255,255,255,.85);
+    animation:fadeUp .7s .3s ease both;
+  }
+  .hero .meta strong{color:var(--white)}
+  .cta{
+    display:inline-block;margin-top:30px;
+    background:var(--gold);color:var(--plum);
+    font-weight:700;font-size:16px;
+    padding:16px 38px;border-radius:999px;text-decoration:none;
+    box-shadow:0 8px 28px rgba(227,194,135,.35);
+    transition:transform .2s ease;
+    animation:fadeUp .7s .4s ease both;
+  }
+  .cta:active{transform:scale(.96)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  /* floating notes */
+  .note-float{position:absolute;font-size:22px;color:rgba(255,255,255,.18);animation:drift 9s ease-in-out infinite}
+  .n1{top:12%;left:8%;animation-delay:0s}
+  .n2{top:24%;right:10%;animation-delay:2.5s;font-size:28px}
+  .n3{top:58%;left:14%;animation-delay:5s;font-size:18px}
+  @keyframes drift{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-22px) rotate(8deg)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:48px 20px;max-width:640px;margin:0 auto}
+  .section-title{
+    font-family:Georgia,serif;font-size:30px;font-weight:700;
+    text-align:center;margin-bottom:8px;
+  }
+  .section-sub{text-align:center;color:var(--lilac);font-size:14px;margin-bottom:34px}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative;padding-left:26px}
+  .timeline::before{
+    content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;
+    background:linear-gradient(rgba(227,194,135,.9),rgba(227,194,135,.15));
+    border-radius:2px;
+  }
+  .t-item{
+    position:relative;margin-bottom:18px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-radius:18px;padding:16px 18px;
+    opacity:0;transform:translateY(24px);
+    transition:opacity .6s ease,transform .6s ease;
+  }
+  .t-item.show{opacity:1;transform:none}
+  .t-item::before{
+    content:"";position:absolute;left:-25px;top:22px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 4px rgba(227,194,135,.25);
+  }
+  .t-time{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+  .t-title{font-family:Georgia,serif;font-size:18px;font-weight:700;margin:4px 0 2px}
+  .t-sub{font-size:13px;color:var(--lilac);font-style:italic}
+  .t-item.intermission{background:rgba(227,194,135,.14);border-color:rgba(227,194,135,.35);text-align:center}
+  .t-item.intermission::before{background:var(--white)}
+
+  /* ---------- PERFORMERS ---------- */
+  .performers{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .p-card{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-radius:22px;padding:22px 14px 18px;text-align:center;
+    cursor:pointer;user-select:none;
+    transition:transform .2s ease,background .2s ease;
+    opacity:0;transform:translateY(24px);
+  }
+  .p-card.show{opacity:1;transform:none;transition:opacity .6s ease,transform .6s ease}
+  .p-card:active{transform:scale(.95)}
+  .avatar{
+    width:86px;height:86px;border-radius:50%;
+    margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
+    font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--white);
+    background:linear-gradient(135deg,var(--heather) 0%,var(--heather-dark) 100%);
+    border:2.5px solid var(--gold);
+    background-size:cover;background-position:center;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+  .p-name{font-family:Georgia,serif;font-size:15px;font-weight:700;line-height:1.25}
+  .p-role{font-size:11.5px;color:var(--gold);margin-top:4px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  .p-tap{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:8px}
+
+  .also{
+    margin-top:26px;text-align:center;
+    background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.2);
+    border-radius:18px;padding:18px;
+  }
+  .also h3{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .also p{font-size:14px;color:rgba(255,255,255,.9);line-height:1.7}
+
+  /* ---------- MODAL (bottom sheet) ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(30,18,45,.6);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:50;
+  }
+  .overlay.open{opacity:1;pointer-events:auto}
+  .sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:linear-gradient(180deg,#F7F2FB 0%,#EFE6F7 100%);
+    color:var(--plum);
+    border-radius:28px 28px 0 0;
+    padding:14px 26px calc(env(safe-area-inset-bottom) + 34px);
+    transform:translateY(105%);
+    transition:transform .38s cubic-bezier(.32,.72,.24,1);
+    max-height:82vh;overflow-y:auto;
+    box-shadow:0 -12px 48px rgba(0,0,0,.35);
+  }
+  .sheet.open{transform:none}
+  .grip{width:44px;height:5px;border-radius:3px;background:#C9B8D9;margin:0 auto 20px}
+  .sheet .avatar{width:110px;height:110px;font-size:34px;border-width:3px}
+  .sheet h2{font-family:Georgia,serif;font-size:24px;text-align:center;margin-top:14px}
+  .sheet .role{
+    text-align:center;color:var(--heather-deep);font-weight:700;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:6px 0 18px;
+  }
+  .sheet .bio{font-size:15.5px;line-height:1.75;color:#4A3B5C}
+  .sheet .badge{
+    display:block;width:fit-content;margin:0 auto 16px;
+    background:var(--heather-deep);color:#fff;font-size:11px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;
+  }
+  .close-btn{
+    display:block;margin:24px auto 0;
+    background:var(--heather-deep);color:#fff;border:none;
+    font-size:15px;font-weight:700;padding:14px 44px;border-radius:999px;
+    cursor:pointer;
+  }
+
+  /* ---------- DONATE ---------- */
+  .donate{
+    text-align:center;
+    background:rgba(227,194,135,.12);
+    border:1px solid rgba(227,194,135,.3);
+    border-radius:26px;padding:36px 24px;
+  }
+  .donate h2{font-family:Georgia,serif;font-size:26px;margin-bottom:10px}
+  .donate p{color:var(--lilac);font-size:15px;line-height:1.7;max-width:420px;margin:0 auto 22px}
+
+  footer{
+    text-align:center;padding:34px 20px calc(env(safe-area-inset-bottom) + 40px);
+    font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.8;
+  }
+  @media(min-width:560px){.performers{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <span class="note-float n1">&#9835;</span>
+  <span class="note-float n2">&#9834;</span>
+  <span class="note-float n3">&#9839;</span>
+  <span class="eyebrow">A Benefit Concert</span>
+  <h1>An Evening<br>of Flute</h1>
+  <p class="tagline">Music that gives back</p>
+  <div class="meta">
+    <span><strong>Saturday, [Month] [Day], [Year]</strong> · 7:00 PM</span>
+    <span>[Venue Name] · [City, State]</span>
+    <span>All proceeds benefit <strong>[Charity Name]</strong></span>
+  </div>
+  <a class="cta" href="#program">View Program &darr;</a>
+</header>
+
+<!-- PROGRAM / ITINERARY -->
+<section id="program">
+  <h2 class="section-title">Program</h2>
+  <p class="section-sub">Tap a performer below to read their story</p>
+  <div class="timeline">
+    <div class="t-item"><div class="t-time">7:00 PM</div><div class="t-title">Welcome &amp; Opening Remarks</div><div class="t-sub">[Host Name]</div></div>
+    <div class="t-item"><div class="t-time">7:10 PM</div><div class="t-title">Syrinx — C. Debussy</div><div class="t-sub">[Main Performer], solo flute</div></div>
+    <div class="t-item"><div class="t-time">7:20 PM</div><div class="t-title">Flute Sonata in E-flat, BWV 1031 — J.S. Bach</div><div class="t-sub">[Main Performer] with [Pianist]</div></div>
+    <div class="t-item"><div class="t-time">7:40 PM</div><div class="t-title">Fantaisie — G. Fauré</div><div class="t-sub">[Main Performer] with [Pianist]</div></div>
+    <div class="t-item"><div class="t-time">7:55 PM</div><div class="t-title">About Our Cause</div><div class="t-sub">[Charity speaker]</div></div>
+    <div class="t-item intermission"><div class="t-time">8:05 PM</div><div class="t-title">Intermission — 15 min</div><div class="t-sub">Refreshments &amp; donation table in the lobby</div></div>
+    <div class="t-item"><div class="t-time">8:20 PM</div><div class="t-title">Carmen Fantasy — F. Borne</div><div class="t-sub">[Main Performer] with [Pianist]</div></div>
+    <div class="t-item"><div class="t-time">8:40 PM</div><div class="t-title">Ensemble Medley</div><div class="t-sub">Flute · clarinet · strings</div></div>
+    <div class="t-item"><div class="t-time">8:55 PM</div><div class="t-title">Closing &amp; Thank You</div><div class="t-sub">[Host Name]</div></div>
+  </div>
+</section>
+
+<!-- PERFORMERS -->
+<section id="performers">
+  <h2 class="section-title">Our Performers</h2>
+  <p class="section-sub">Tap a card to see photo &amp; bio</p>
+  <div class="performers" id="pGrid"></div>
+  <div class="also">
+    <h3>Also Featuring</h3>
+    <p>[Clarinetist Name] · clarinet<br>[Violinist 1] · [Violinist 2] · [Violinist 3] · violin</p>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section>
+  <div class="donate">
+    <h2>Support the Cause</h2>
+    <p>Every donation goes directly to [Charity Name] — placeholder: one sentence on what the proceeds fund.</p>
+    <a class="cta" href="[donation-link]" style="animation:none">Donate Now</a>
+  </div>
+</section>
+
+<footer>
+  [Organization Name] · [contact email] · [phone]<br>
+  Thank you for being here tonight. &#9834;
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="grip"></div>
+  <div class="avatar" id="mAvatar">A</div>
+  <h2 id="mName"></h2>
+  <span class="badge" id="mBadge" style="display:none"></span>
+  <div class="role" id="mRole"></div>
+  <p class="bio" id="mBio"></p>
+  <button class="close-btn" id="closeBtn">Close</button>
+</div>
+
+<script>
+  // ====== EDIT PERFORMER DATA HERE ======
+  // To use real photos: set photo to a file name or URL, e.g. photo:"maya.jpg"
+  const performers = [
+    {
+      name: "[Main Performer Name]",
+      role: "Flute · Charity Founder",
+      badge: "Charity Founder",
+      initials: "MP",
+      photo: "",
+      bio: "Placeholder bio: 3–4 sentences about the main performer — training, why they founded [Charity Name], and what tonight means to them."
+    },
+    {
+      name: "[Coach Name]",
+      role: "Coach",
+      badge: "",
+      initials: "C",
+      photo: "",
+      bio: "Placeholder bio: 2–3 sentences about the coach — background, students, and their role in tonight's concert."
+    },
+    {
+      name: "[Pianist Name]",
+      role: "Piano",
+      badge: "",
+      initials: "P",
+      photo: "",
+      bio: "Placeholder bio: 2–3 sentences about the pianist and accompanist work."
+    },
+    {
+      name: "[Violin Teacher Name]",
+      role: "Violin Teacher",
+      badge: "Special Mention",
+      initials: "VT",
+      photo: "",
+      bio: "Placeholder bio: 2–3 sentences honoring the violin teacher — years of teaching, students performing tonight, and their impact."
+    }
+  ];
+  // ======================================
+
+  const grid = document.getElementById("pGrid");
+  performers.forEach((p, i) => {
+    const card = document.createElement("div");
+    card.className = "p-card";
+    card.innerHTML = `
+      <div class="avatar" style="${p.photo ? `background-image:url('${p.photo}')` : ""}">${p.photo ? "" : p.initials}</div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-role">${p.role}</div>
+      <div class="p-tap">tap for bio</div>`;
+    card.addEventListener("click", () => openSheet(i));
+    grid.appendChild(card);
+  });
+
+  const overlay = document.getElementById("overlay");
+  const sheet = document.getElementById("sheet");
+  function openSheet(i) {
+    const p = performers[i];
+    const av = document.getElementById("mAvatar");
+    av.style.backgroundImage = p.photo ? `url('${p.photo}')` : "";
+    av.textContent = p.photo ? "" : p.initials;
+    document.getElementById("mName").textContent = p.name;
+    document.getElementById("mRole").textContent = p.role;
+    document.getElementById("mBio").textContent = p.bio;
+    const badge = document.getElementById("mBadge");
+    badge.style.display = p.badge ? "block" : "none";
+    badge.textContent = p.badge;
+    overlay.classList.add("open");
+    sheet.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeSheet() {
+    overlay.classList.remove("open");
+    sheet.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  overlay.addEventListener("click", closeSheet);
+  document.getElementById("closeBtn").addEventListener("click", closeSheet);
+
+  // swipe-down to close
+  let startY = null;
+  sheet.addEventListener("touchstart", e => { startY = e.touches[0].clientY; }, {passive:true});
+  sheet.addEventListener("touchend", e => {
+    if (startY !== null && e.changedTouches[0].clientY - startY > 80) closeSheet();
+    startY = null;
+  }, {passive:true});
+
+  // scroll-in animation
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("show"); io.unobserve(en.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".t-item, .p-card").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
