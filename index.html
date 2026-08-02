@@ -71,6 +71,16 @@
     animation:fadeUp .7s .4s ease both;
   }
   .cta:active{transform:scale(.96)}
+  .cta-row{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+    margin-top:30px;animation:fadeUp .7s .4s ease both;
+  }
+  .cta-row .cta{margin-top:0;animation:none}
+  .cta-ghost{
+    background:rgba(255,255,255,.08);color:var(--white);
+    border:1.5px solid rgba(227,194,135,.55);
+    box-shadow:none;backdrop-filter:blur(8px);
+  }
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
   /* floating notes */
@@ -233,7 +243,11 @@
     <span>Westlake High School · Carpenter Theater</span>
     <span>All proceeds benefit <strong>AAUW</strong></span>
   </div>
-  <a class="cta" href="#program">View Program &darr;</a>
+  <div class="cta-row">
+    <a class="cta" href="#program">View Program &darr;</a>
+    <a class="cta cta-ghost" href="#performers">View Performers</a>
+    <a class="cta cta-ghost" href="#donate">Donation Details</a>
+  </div>
 </header>
 
 <!-- PROGRAM / ITINERARY -->
@@ -276,7 +290,7 @@
 </section>
 
 <!-- DONATE -->
-<section>
+<section id="donate">
   <div class="donate">
     <h2>Support the Cause</h2>
     <p>Join us for an evening celebrating Smrithi's musical journey and the community that helped inspire it. Your attendance and any contribution you choose to make goes directly to AAUW (American Association of University Women), empowering women and girls through education, advocacy, and opportunity. Thank you for being part of this special event.</p>
