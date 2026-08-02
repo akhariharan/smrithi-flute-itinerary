@@ -310,7 +310,7 @@
       role: "Flute · Lead Performer",
       badge: "Charity Lead",
       initials: "SB",
-      photo: "smrithi.jpeg",
+      photo: "smrithi.jpg",
       bio: "As Smrithi prepares to begin her junior year of high school, she continues to pursue her two greatest passions: music and science. She has been trained in flute by Ms. Caitlin Boruch, who was instrumental in inculcating her love of instrumental music. A defining moment came in middle school, when an event hosted by the American Association of University Women (AAUW) sparked her interest in STEM and opened her eyes to the importance of encouraging young women in these fields. Ever since, Smrithi has aspired to give back to the organization that helped shape her goals. Tonight's benefit concert unites her love of music with her commitment to STEM education — supporting AAUW's mission of empowering women and girls through education, advocacy, and opportunity."
     },
     {
@@ -326,7 +326,7 @@
       role: "Piano",
       badge: "",
       initials: "AF",
-      photo: "",
+      photo: "alyssa.jpg",
       bio: "Placeholder bio: 2–3 sentences about Alyssa and her accompanist work."
     },
     {
@@ -334,7 +334,7 @@
       role: "Viola · Violin Teacher",
       badge: "Special Mention",
       initials: "DR",
-      photo: "",
+      photo: "diana.jpg",
       bio: "Diana Ray-Goodman, violist and violinist, received her BA in Music from California State University Northridge and worked on her Master's Degree with William Magers at Arizona State University. She has played in several orchestras including the Phoenix & Santa Barbara Orchestras, Santa Barbara Chamber Orchestra, and the Thousand Oaks Philharmonic, and is a founding member of both the Channel Islands String Quartet and the Luminoso Piano Quintet, which performs at the Hillcrest Center for the Arts in Thousand Oaks. In Thousand Oaks, Miss Diana has a studio of violin and viola students ranging in age from 4 years to adults. She is a Registered Teacher with the Suzuki Association of the Americas, and a Member and Evaluator for the ASTA Certificate Advancement Program and the Music Teachers' Association of California Certificate of Merit. She has been a member of the music faculty at California State University Channel Islands since it first opened in 2002. Miss Diana enjoys teaching and playing chamber music, and quickly accepted the opportunity to play duets with Smrithi for this wonderful cause."
     }
   ];
@@ -345,12 +345,23 @@
     const card = document.createElement("div");
     card.className = "p-card";
     card.innerHTML = `
-      <div class="avatar" style="${p.photo ? `background-image:url('${p.photo}')` : ""}">${p.photo ? "" : p.initials}</div>
+      <div class="avatar">${p.initials}</div>
       <div class="p-name">${p.name}</div>
       <div class="p-role">${p.role}</div>
       <div class="p-tap">tap for bio</div>`;
     card.addEventListener("click", () => openSheet(i));
     grid.appendChild(card);
+    // Load photo from the site's root folder if it exists; otherwise keep initials
+    if (p.photo) {
+      const img = new Image();
+      img.onload = () => {
+        p.loaded = true;
+        const av = card.querySelector(".avatar");
+        av.style.backgroundImage = `url('${p.photo}')`;
+        av.textContent = "";
+      };
+      img.src = p.photo;
+    }
   });
 
   const overlay = document.getElementById("overlay");
@@ -358,8 +369,8 @@
   function openSheet(i) {
     const p = performers[i];
     const av = document.getElementById("mAvatar");
-    av.style.backgroundImage = p.photo ? `url('${p.photo}')` : "";
-    av.textContent = p.photo ? "" : p.initials;
+    av.style.backgroundImage = p.loaded ? `url('${p.photo}')` : "";
+    av.textContent = p.loaded ? "" : p.initials;
     document.getElementById("mName").textContent = p.name;
     document.getElementById("mRole").textContent = p.role;
     document.getElementById("mBio").textContent = p.bio;
