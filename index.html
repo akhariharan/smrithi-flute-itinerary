@@ -226,6 +226,20 @@
     font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.8;
   }
   @media(min-width:560px){.performers{grid-template-columns:repeat(4,1fr)}}
+
+  /* floating back-to-top */
+  .to-top{
+    position:fixed;right:18px;bottom:calc(env(safe-area-inset-bottom) + 20px);
+    z-index:40;width:52px;height:52px;border-radius:50%;
+    background:var(--gold);color:var(--plum);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:700;text-decoration:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    opacity:0;pointer-events:none;transform:translateY(12px);
+    transition:opacity .3s ease,transform .3s ease;
+  }
+  .to-top.show{opacity:1;pointer-events:auto;transform:none}
+  .to-top:active{transform:scale(.92)}
 </style>
 </head>
 <body>
@@ -306,6 +320,9 @@
   [Organization Name] · [contact email] · [phone]<br>
   Thank you for being here tonight. &#9834;
 </footer>
+
+<!-- BACK TO TOP -->
+<a class="to-top" id="toTop" href="#" aria-label="Back to top">&uarr;</a>
 
 <!-- MODAL -->
 <div class="overlay" id="overlay"></div>
@@ -420,6 +437,16 @@
     entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("show"); io.unobserve(en.target); } });
   }, { threshold: 0.15 });
   document.querySelectorAll(".t-item, .p-card").forEach(el => io.observe(el));
+
+  // floating back-to-top button (appears after scrolling past the hero)
+  const toTop = document.getElementById("toTop");
+  window.addEventListener("scroll", () => {
+    toTop.classList.toggle("show", window.scrollY > 400);
+  }, {passive:true});
+  toTop.addEventListener("click", e => {
+    e.preventDefault();
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
 </script>
 </body>
 </html>
